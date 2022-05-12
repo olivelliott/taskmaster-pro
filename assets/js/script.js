@@ -84,10 +84,16 @@ $(".list-group").on("click", "span", function() {
     .addClass("form-control")
     .val(date);
   $(this).replaceWith(dateInput);
+  dateInput.datepicker({
+    minDate: 1,
+    onClose: function() {
+      $(this).trigger("change");
+    }
+  });
   dateInput.trigger("focus");
 });
 
-$(".list-group").on("blur", "input[type='text']", function() {
+$(".list-group").on("change", "input[type='text']", function() {
   var date = $(this)
   .val()
   .trim();
@@ -99,11 +105,11 @@ var index = $(this)
   .closest(".list-group-item")
   .index();
 tasks[status][index].date = date;
-saveTasks();
 var taskSpan = $("<span>")
   .addClass("badge badge-primary badge-pill")
   .text(date);
 $(this).replaceWith(taskSpan);
+saveTasks();
 });
 
 
@@ -171,17 +177,15 @@ $(".card .list-group").sortable({
   update: function(event) {
     var tempArray = [];
     $(this).children().each(function() {
-      var text = $(this)
+      tempArray.push({
+      text: $(this)
       .find("p")
       .text()
-      .trim();
-      var date = $(this)
+      .trim(),
+      date: $(this)
       .find("span")
       .text()
-      .trim();
-      tempArray.push({
-        text: text,
-        date: date
+      .trim(),
       });
     });
     var arrName = $(this)
@@ -206,6 +210,11 @@ $("#trash").droppable({
     console.log("out");
   }
 })
+
+$("#modalDueDate").datepicker({
+  minDate: 1
+});
+
 // load tasks for the first time
 loadTasks();
 
