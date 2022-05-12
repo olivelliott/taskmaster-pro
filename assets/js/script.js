@@ -151,6 +151,11 @@ $("#remove-tasks").on("click", function() {
   saveTasks();
 });
 
+$(".card .list-group").sortable({
+  connectWith: $(".card .list-group")
+});
+
+
 // load tasks for the first time
 loadTasks();
 
