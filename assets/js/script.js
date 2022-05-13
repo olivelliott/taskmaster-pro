@@ -164,12 +164,16 @@ $(".card .list-group").sortable({
   tolerance: "pointer",
   helper: "clone",
   activate: function(event) {
+    $(this).addClass(".dropover");
   },
   deactivate: function(event) {
+    $(this).removeClass(".dropover");
   },
   over: function(event) {
+    $(this,event.target.addClass(".dropover-active"));
   },
   out: function(event) {
+    $(this,event.target.removeClass(".dropover-active"));
   },
   update: function(event) {
     var tempArray = [];
@@ -201,10 +205,8 @@ $("#trash").droppable({
     ui.draggable.remove();
   },
   over: function(event, ui) {
-    console.log("over")
   },
   out: function(event, ui) {
-    console.log("out");
   }
 })
 
